@@ -21,7 +21,7 @@ import { Wrapper, AllWrapper, UAppBar, Flex } from "./StyledComps";
 import path from "path";
 import dotenv from "dotenv";
 
-import dummy from "./assets/icon_wide.png"
+import dummy from "./assets/icon_wide.png";
 
 dotenv.config({
   path: path.resolve(__dirname, ".env"),
@@ -167,6 +167,7 @@ const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
 const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
   id,
   username,
+  imageUrl,
   content,
   handleOpen,
 }) => {
@@ -174,9 +175,7 @@ const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
     <NeumorphicCardWrapper onClick={() => handleOpen(id)}>
       <CardContent>
         <Box display="flex" alignItems="center" mb={1}>
-          <Avatar>
-            <AccountCircle />
-          </Avatar>
+          <Avatar alt="Profile Picture" src={imageUrl}></Avatar>
           <Typography variant="h6" component="div" sx={{ ml: 1 }}>
             {username}
           </Typography>
@@ -240,16 +239,16 @@ const App: FC = () => {
   const tasksToRender =
     date === "ALL"
       ? onchainTasks
-      : onchainTasks.filter((item) => item.teamId === date);
+      : onchainTasks.filter((item: any) => item.teamId === date);
 
   const thanksToRender = modalOpen
-    ? onchainThanks.filter((item) => item.taskId === selectedCard.taskId)
+    ? onchainThanks.filter((item: any) => item.taskId === selectedCard.taskId)
     : [];
 
   return (
     <AllWrapper>
       <UAppBar>
-        <img src={dummy} style={{height:60}}></img>
+        <img src={dummy} style={{ height: 60 }}></img>
         <p>for-enterprise</p>
       </UAppBar>
       <Wrapper>
