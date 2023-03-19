@@ -4,19 +4,11 @@ import { ThemeProvider } from "@mui/material/styles";
 import { v4 as uuidv4 } from "uuid";
 import {
   Typography,
-  TextField,
   Button,
-  Checkbox,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
   Box,
   Card,
   CardContent,
   Avatar,
-  AppBar,
   Modal,
   Paper,
   Select,
@@ -25,7 +17,6 @@ import {
 import { styled } from "@mui/material/styles";
 import { AccountCircle } from "@mui/icons-material";
 import { Wrapper, AllWrapper, UAppBar, Flex } from "./StyledComps";
-import { Link } from "react-router-dom";
 
 import path from "path";
 import dotenv from "dotenv";
@@ -46,11 +37,6 @@ const CONTRACT_ADDRESS = "0xd08C0A04c755e2Ab46DE19302b340F8b58C36e28";
 const ContractABI = abi.abi;
 const privateKey: any = process.env.REACT_APP_PRIVATE_KEY;
 
-type Todo = {
-  id: string;
-  text: string;
-  completed: boolean;
-};
 interface CardData {
   id: number;
   username: string;
@@ -63,13 +49,13 @@ interface Task {
   content: string;
   avatarURL: string;
 }
-interface Thanks {
-  thanksId: any;
-  teamId: any;
-  content: string;
-  taskId: any;
-  avatarURL: string;
-}
+// interface Thanks {
+//   thanksId: any;
+//   teamId: any;
+//   content: string;
+//   taskId: any;
+//   avatarURL: string;
+// }
 interface NeumorphicCardProps extends CardData {
   handleOpen: (id: any) => void;
 }
@@ -204,12 +190,12 @@ const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
 };
 
 const App: FC = () => {
-  const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState<CardData | null | any>(null);
-  // date params
   const [date, setDate] = React.useState<string | null>("ALL");
   const [months, setMonths] = useState(["ALL"]);
+  const [onchainTasks, setOnchainTasks] = useState([]);
+  const [onchainThanks, setOnchainThanks] = useState([]);
 
   useEffect(() => {
     let tmp: any = [];
@@ -218,12 +204,6 @@ const App: FC = () => {
       return Array.from(uniqueValues);
     };
     const uniqueNames = getUniqueValues(sampleTasks, "teamId");
-    // for (let i = 0; i < 12; i++) {
-    //   const option = ConvertUtils.generateSpecificYyyymm(i);
-    //   let optionDate = new Date(option + "-1");
-    //   let genesisDate = new Date("2022-11-1");
-    //   if (optionDate.getTime() > genesisDate.getTime()) tmp.push(option);
-    // }
     tmp = uniqueNames;
     tmp.unshift("ALL");
     setMonths(tmp);
@@ -231,16 +211,20 @@ const App: FC = () => {
 
   useEffect(() => {
     (async () => {
-      const provider:any = new ethers.providers.JsonRpcProvider('https://astar.blastapi.io/72fc6242-60a0-4d5c-b03d-5800687511c1');
-      console.log(provider)
+      const provider: any = new ethers.providers.JsonRpcProvider(
+        "https://astar.blastapi.io/72fc6242-60a0-4d5c-b03d-5800687511c1"
+      );
       const walletWithProvider = new ethers.Wallet(privateKey, provider);
-      console.log(walletWithProvider)
-      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ContractABI, walletWithProvider);
-      console.log(connectedContract)
+      const connectedContract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        ContractABI,
+        walletWithProvider
+      );
       const tasks = await connectedContract.getAllTasks();
       const thanks = await connectedContract.getAllThanks();
-      console.log(tasks)
-      console.log(thanks)
+      console.log(tasks);
+      setOnchainTasks(tasks);
+      setOnchainThanks(thanks);
     })();
   }, []);
 
@@ -255,11 +239,11 @@ const App: FC = () => {
 
   const tasksToRender =
     date === "ALL"
-      ? sampleTasks
-      : sampleTasks.filter((item) => item.teamId === date);
+      ? onchainTasks
+      : onchainTasks.filter((item) => item.teamId === date);
 
   const thanksToRender = modalOpen
-    ? sampleThanks.filter((item) => item.taskId === selectedCard.taskId)
+    ? onchainThanks.filter((item) => item.taskId === selectedCard.taskId)
     : [];
 
   return (
@@ -269,23 +253,27 @@ const App: FC = () => {
         {/* <p>for-enterprise</p> */}
       </UAppBar>
       <Wrapper>
-        <Select
-          labelId="periodLabel"
-          id="periodLabel"
-          value={date}
-          label="Period"
-          onChange={(e: any) => setDate(e.target.value as string)}
-        >
-          {months.map((item, i) => (
-            <MenuItem key={i} value={item}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-        <Box></Box>
         <Flex>
-          <Button>Tasks / Thanks</Button>
-          <Box></Box>
+          <p>チーム選択</p>
+          <Box sx={{ marginRight: "16px" }}></Box>
+          <Select
+            labelId="periodLabel"
+            id="periodLabel"
+            value={date}
+            label="Period"
+            onChange={(e: any) => setDate(e.target.value as string)}
+          >
+            {months.map((item, i) => (
+              <MenuItem key={i} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        </Flex>
+        <Box sx={{ marginTop: "16px" }}></Box>
+        <Flex>
+          <Button>Tasks/Thanks</Button>
+          <Box sx={{ marginRight: "16px" }}></Box>
           <Button>Dashboard</Button>
         </Flex>
         {tasksToRender.map(({ taskId, username, content }) => (
