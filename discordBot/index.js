@@ -73,7 +73,7 @@ client.on("interactionCreate", async (interaction) => {
             const userName = user.username;
             const userIconURL = user.avatarURL() ?? "";
 
-            const content = interaction.options.get('content');
+            const content = interaction.options.get('content').value;
 
             console.log(`teamId: ${teamId}\nteamName: ${teamName}\nteamIconURL: ${teamIconURL}\n\n\nuserId: ${userId}\nuserName: ${userName}\nuserIconURL: ${userIconURL}\n\n\ncontent: ${content}`);
 
@@ -109,7 +109,7 @@ client.on("interactionCreate", async (interaction) => {
             const toName = toUser.username;
             const toIconURL = toUser.avatarURL() ?? ""
 
-            const content = interaction.options.get('message');
+            const content = interaction.options.get('message').value;
 
             console.log(`taskId: ${taskId}\n\n\nfrom: ${from}\nfromName: ${fromName}\nfromIconURL: ${fromIconURL}\n\n\nto: ${to}\ntoName: ${toName}\ntoIconURL: ${toIconURL}\n\n\ncontent: ${content}`);
 
