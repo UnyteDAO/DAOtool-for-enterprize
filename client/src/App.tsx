@@ -200,7 +200,6 @@ const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
 };
 
 const App: FC = () => {
-  const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState<CardData | null | any>(null);
   // date params
