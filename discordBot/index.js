@@ -44,7 +44,7 @@ const contract = require("../contracts/Unyte.json");
 
 const abi = contract.abi;
 // envの読み込みがうまくいかなかったので一瞬ベタ書き
-const privateKey = "0cb8aa4ff203eee33fd894bbc29a7cdbe56f2fd77eae7352ef5dc0b85b71290a"
+const privateKey = process.env.PRIVATE_KEY
 
 
 

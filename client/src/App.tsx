@@ -27,6 +27,21 @@ import { AccountCircle } from "@mui/icons-material";
 import { Wrapper, AllWrapper, UAppBar } from "./StyledComps";
 import { Link } from "react-router-dom";
 
+import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config({
+    path: path.resolve(__dirname, ".env"),
+});
+
+import { ethers } from "ethers";
+// ABIのインポート
+import abi from "./contracts/Unyte.json";
+const CONTRACT_ADDRESS = "0xaE270728bA33666714276F7feCA401DbB716ef7b";
+// ABIの参照
+const ContractABI = abi.abi;
+const privateKey:any = process.env.PRIVATE_KEY
+
 type Todo = {
   id: string;
   text: string;
@@ -123,6 +138,22 @@ const App: FC = () => {
     // }
     tmp.unshift("ALL");
     setMonths(tmp);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const numberValue = 123456789;
+      const hexString = numberValue.toString(16);
+      console.log(privateKey)
+      const provider:any = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/OYM4nSdwayU_AlLiq50U7TFXnKqXXcuL');
+      console.log(provider)
+      const walletWithProvider = new ethers.Wallet(privateKey, provider);
+      console.log(walletWithProvider)
+      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ContractABI, walletWithProvider);
+      console.log(connectedContract)
+      const tasks = await connectedContract.getAllTasks();
+      console.log(tasks)
+    })();
   }, []);
 
   const handleOpen = (id: number) => {
