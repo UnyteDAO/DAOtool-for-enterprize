@@ -21,7 +21,7 @@ import { Wrapper, AllWrapper, UAppBar, Flex } from "./StyledComps";
 import path from "path";
 import dotenv from "dotenv";
 
-import dummy from "./assets/icon_wide.png";
+import dummy from "./assets/iconwhite.webp";
 
 dotenv.config({
   path: path.resolve(__dirname, ".env"),
@@ -249,7 +249,7 @@ const App: FC = () => {
     <AllWrapper>
       <UAppBar>
         <img src={dummy} style={{ height: 60 }}></img>
-        <p>for-enterprise</p>
+        {/* <p>for-enterprise</p> */}
       </UAppBar>
       <Wrapper>
         <Flex>
