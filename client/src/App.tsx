@@ -4,19 +4,11 @@ import { ThemeProvider } from "@mui/material/styles";
 import { v4 as uuidv4 } from "uuid";
 import {
   Typography,
-  TextField,
   Button,
-  Checkbox,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
   Box,
   Card,
   CardContent,
   Avatar,
-  AppBar,
   Modal,
   Paper,
   Select,
@@ -25,7 +17,6 @@ import {
 import { styled } from "@mui/material/styles";
 import { AccountCircle } from "@mui/icons-material";
 import { Wrapper, AllWrapper, UAppBar, Flex } from "./StyledComps";
-import { Link } from "react-router-dom";
 
 import path from "path";
 import dotenv from "dotenv";
@@ -43,11 +34,6 @@ const CONTRACT_ADDRESS = "0xd08C0A04c755e2Ab46DE19302b340F8b58C36e28";
 const ContractABI = abi.abi;
 const privateKey: any = process.env.REACT_APP_PRIVATE_KEY;
 
-type Todo = {
-  id: string;
-  text: string;
-  completed: boolean;
-};
 interface CardData {
   id: number;
   username: string;
@@ -60,13 +46,13 @@ interface Task {
   content: string;
   avatarURL: string;
 }
-interface Thanks {
-  thanksId: any;
-  teamId: any;
-  content: string;
-  taskId: any;
-  avatarURL: string;
-}
+// interface Thanks {
+//   thanksId: any;
+//   teamId: any;
+//   content: string;
+//   taskId: any;
+//   avatarURL: string;
+// }
 interface NeumorphicCardProps extends CardData {
   handleOpen: (id: any) => void;
 }
@@ -203,9 +189,10 @@ const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
 const App: FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState<CardData | null | any>(null);
-  // date params
   const [date, setDate] = React.useState<string | null>("ALL");
   const [months, setMonths] = useState(["ALL"]);
+  const [onchainTasks, setOnchainTasks] = useState([]);
+  const [onchainThanks, setOnchainThanks] = useState([]);
 
   useEffect(() => {
     let tmp: any = [];
@@ -224,19 +211,17 @@ const App: FC = () => {
       const provider: any = new ethers.providers.JsonRpcProvider(
         "https://astar.blastapi.io/72fc6242-60a0-4d5c-b03d-5800687511c1"
       );
-      console.log(provider);
       const walletWithProvider = new ethers.Wallet(privateKey, provider);
-      console.log(walletWithProvider);
       const connectedContract = new ethers.Contract(
         CONTRACT_ADDRESS,
         ContractABI,
         walletWithProvider
       );
-      console.log(connectedContract);
       const tasks = await connectedContract.getAllTasks();
       const thanks = await connectedContract.getAllThanks();
       console.log(tasks);
-      console.log(thanks);
+      setOnchainTasks(tasks);
+      setOnchainThanks(thanks);
     })();
   }, []);
 
@@ -251,11 +236,11 @@ const App: FC = () => {
 
   const tasksToRender =
     date === "ALL"
-      ? sampleTasks
-      : sampleTasks.filter((item) => item.teamId === date);
+      ? onchainTasks
+      : onchainTasks.filter((item) => item.teamId === date);
 
   const thanksToRender = modalOpen
-    ? sampleThanks.filter((item) => item.taskId === selectedCard.taskId)
+    ? onchainThanks.filter((item) => item.taskId === selectedCard.taskId)
     : [];
 
   return (
