@@ -263,6 +263,7 @@ const App: FC = () => {
         <p>for-enterprise</p>
       </UAppBar>
       <Wrapper>
+        <p>チーム選択</p>
         <Select
           labelId="periodLabel"
           id="periodLabel"
