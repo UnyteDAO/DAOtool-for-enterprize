@@ -235,7 +235,9 @@ const App: FC = () => {
       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ContractABI, walletWithProvider);
       console.log(connectedContract)
       const tasks = await connectedContract.getAllTasks();
+      const thanks = await connectedContract.getAllThanks();
       console.log(tasks)
+      console.log(thanks)
     })();
   }, []);
 
