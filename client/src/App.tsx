@@ -24,14 +24,14 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { AccountCircle } from "@mui/icons-material";
-import { Wrapper, AllWrapper, UAppBar } from "./StyledComps";
+import { Wrapper, AllWrapper, UAppBar, Flex } from "./StyledComps";
 import { Link } from "react-router-dom";
 
 import path from "path";
 import dotenv from "dotenv";
 
 dotenv.config({
-    path: path.resolve(__dirname, ".env"),
+  path: path.resolve(__dirname, ".env"),
 });
 
 import { ethers } from "ethers";
@@ -40,7 +40,7 @@ import abi from "./contracts/Unyte.json";
 const CONTRACT_ADDRESS = "0xaE270728bA33666714276F7feCA401DbB716ef7b";
 // ABIの参照
 const ContractABI = abi.abi;
-const privateKey:any = process.env.PRIVATE_KEY
+const privateKey: any = process.env.PRIVATE_KEY;
 
 type Todo = {
   id: string;
@@ -52,9 +52,94 @@ interface CardData {
   userName: string;
   content: string;
 }
-interface NeumorphicCardProps extends CardData {
-  handleOpen: (id: number) => void;
+interface Task {
+  taskId: string | number;
+  teamId: string | number;
+  username: string;
+  content: string;
+  avatarURL: string;
 }
+interface Thanks {
+  thanksId: string | number;
+  teamId: string | number;
+  content: string;
+  taskId: string | number;
+  avatarURL: string;
+}
+interface NeumorphicCardProps extends CardData {
+  handleOpen: (id: string | number) => void;
+}
+
+const sampleTasks: Task[] = [
+  {
+    taskId: 1,
+    teamId: 1,
+    username: "Uwaizumi.eth",
+    content: "将です",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    taskId: 2,
+    teamId: 1,
+    username: "Uwaizumi.eth",
+    content: "タスクです",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    taskId: 3,
+    teamId: 1,
+    username: "Uwaizumi.eth",
+    content: "たすくです",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+];
+const sampleThanks: any[] = [
+  {
+    thanksId: 1,
+    taskId: 1,
+    teamId: 1,
+    content: "ありがとう。",
+    fromId: "710388387726753852",
+    from: "Uwaizumi.eth",
+    fromAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toId: "710388387726753852",
+    to: "Uwaizumi.eth",
+    toAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    thanksId: 1,
+    taskId: 1,
+    teamId: 1,
+    content: "ありがとう。",
+    fromId: "710388387726753852",
+    from: "Uwaizumi.eth",
+    fromAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toId: "710388387726753852",
+    to: "Uwaizumi.eth",
+    toAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    thanksId: 1,
+    taskId: 1,
+    teamId: 1,
+    content: "ありがとう。",
+    fromId: "710388387726753852",
+    from: "Uwaizumi.eth",
+    fromAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toId: "710388387726753852",
+    to: "Uwaizumi.eth",
+    toAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+];
 
 const cardData: CardData[] = [
   { id: 1, userName: "User 1", content: "This is a sample content." },
@@ -84,8 +169,8 @@ const thanksCardData: CardData[] = [
 
 const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
   borderRadius: "1rem",
-  // backgroundColor: "#E5EEF0",
-  background: "linear-gradient(to right, #ff7f50, #ff1493)",
+  backgroundColor: "#E5EEF0",
+  // background: "linear-gradient(to right, #ff7f50, #ff1493)",
   boxShadow: "10px 10px 10px #d9d9d9, -10px -10px 10px #ffffff",
   textDecoration: "none",
   minWidth: 275,
@@ -120,7 +205,6 @@ const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
 };
 
 const App: FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState<CardData | null | any>(null);
@@ -140,23 +224,23 @@ const App: FC = () => {
     setMonths(tmp);
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      const numberValue = 123456789;
-      const hexString = numberValue.toString(16);
-      console.log(privateKey)
-      const provider:any = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/OYM4nSdwayU_AlLiq50U7TFXnKqXXcuL');
-      console.log(provider)
-      const walletWithProvider = new ethers.Wallet(privateKey, provider);
-      console.log(walletWithProvider)
-      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ContractABI, walletWithProvider);
-      console.log(connectedContract)
-      const tasks = await connectedContract.getAllTasks();
-      console.log(tasks)
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const numberValue = 123456789;
+  //     const hexString = numberValue.toString(16);
+  //     console.log(privateKey)
+  //     const provider:any = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/OYM4nSdwayU_AlLiq50U7TFXnKqXXcuL');
+  //     console.log(provider)
+  //     const walletWithProvider = new ethers.Wallet(privateKey, provider);
+  //     console.log(walletWithProvider)
+  //     const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ContractABI, walletWithProvider);
+  //     console.log(connectedContract)
+  //     const tasks = await connectedContract.getAllTasks();
+  //     console.log(tasks)
+  //   })();
+  // }, []);
 
-  const handleOpen = (id: number) => {
+  const handleOpen = (id: string | number) => {
     setSelectedCard(cardData.find((card) => card.id === id) || null);
     setModalOpen(true);
   };
@@ -190,43 +274,10 @@ const App: FC = () => {
   //   }
   // }, [setATfunc]);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleAddTodo = () => {
-    if (!inputValue.trim()) {
-      return;
-    }
-
-    const newTodo: Todo = {
-      id: uuidv4(),
-      text: inputValue,
-      completed: false,
-    };
-
-    setTodos([...todos, newTodo]);
-    setInputValue("");
-  };
-
-  const handleToggleTodo = (id: string) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
-
-    setTodos(updatedTodos);
-  };
-
-  const handleDeleteTodo = (id: string) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
-
-    setTodos(updatedTodos);
-  };
-
   return (
     <AllWrapper>
       <UAppBar>
-        <img src="./assets/icon_wide.png"></img>
+        <img src="../../assets/icon_wide.png"></img>
         <p>for-enterprise</p>
       </UAppBar>
       <Wrapper>
@@ -243,11 +294,17 @@ const App: FC = () => {
             </MenuItem>
           ))}
         </Select>
-        {cardData.map(({ id, userName, content }) => (
+        <Box></Box>
+        <Flex>
+          <Button>Tasks / Thanks</Button>
+          <Box></Box>
+          <Button>Dashboard</Button>
+        </Flex>
+        {sampleTasks.map(({ taskId, username, content }) => (
           <NeumorphicCard
-            key={id}
-            id={id}
-            userName={userName}
+            key={taskId}
+            id={taskId}
+            userName={username}
             content={content}
             handleOpen={handleOpen}
           />
@@ -268,8 +325,8 @@ const App: FC = () => {
               transform: "translate(-50%, -50%)",
               width: "60%",
               maxWidth: "900px",
-              // bgcolor: "#E5EEF0",
-              background: "linear-gradient(to right, #ff7f50, #ff1493)",
+              bgcolor: "#E5EEF0",
+              // background: "linear-gradient(to right, #ff7f50, #ff1493)",
               boxShadow: 24,
               p: 4,
               maxHeight: "60vh",
@@ -283,7 +340,7 @@ const App: FC = () => {
             <Typography id="modal-description" sx={{ mt: 2 }}>
               {!selectedCard.content}
             </Typography>
-            {thanksCardData.map(({ id, userName, content }) => (
+            {sampleThanks.map(({ id, userName, content }) => (
               <NeumorphicCard
                 key={id}
                 id={id}
