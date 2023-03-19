@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import {
   Typography,
   TextField,
@@ -14,8 +14,13 @@ import {
 } from "@mui/material";
 
 export const Wrapper = styled("div")({
-  color: "darkslategray",
-  backgroundColor: "aliceblue",
-  padding: 8,
-  borderRadius: 4,
+  maxWidth: "960px",
+  margin: "0 auto",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  // color: "darkslategray",
+  // backgroundColor: "aliceblue",
+  // padding: 8,
+  // borderRadius: 4,
 });
