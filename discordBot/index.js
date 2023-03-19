@@ -25,7 +25,7 @@ const client = new Client({
 });
 
 // envの読み込みがうまくいかなかったので一瞬ベタ書き
-client.login("MTA4Njg1Njk0MzMyODU1OTE4NA.GKAKkn.wDRoHzKmpyL6hsVdS3gWI5Y_AqkRafMeApqTk4").catch(console.error);
+client.login(process.env.DISCORD_TOKEN).catch(console.error);
 
 client.once(Events.ClientReady, (c) => {
     console.log(`Ready! (${c.user.tag})`); // 起動した時に"Ready!"とBotの名前をコンソールに出力する
