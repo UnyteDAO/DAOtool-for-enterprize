@@ -42,6 +42,99 @@ interface CardData {
   content: string;
 }
 
+const sampleTasks: Task[] = [
+  {
+    taskId: 1,
+    teamId: 1,
+    username: "Uwaizumi.eth",
+    content: "将です",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    taskId: 2,
+    teamId: 1,
+    username: "Uwaizumi.eth",
+    content: "タスクです",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    taskId: 3,
+    teamId: 2,
+    username: "Uwaizumi.eth",
+    content: "たすくです",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    taskId: 4,
+    teamId: 3,
+    username: "Uwaizumi.eth",
+    content: "たすくです",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+];
+const sampleThanks: any[] = [
+  {
+    thanksId: 1,
+    taskId: 1,
+    teamId: 1,
+    content: "ありがとう。",
+    fromId: "710388387726753852",
+    from: "Uwaizumi.eth",
+    fromAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toId: "710388387726753852",
+    to: "Uwaizumi.eth",
+    toAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    thanksId: 2,
+    taskId: 1,
+    teamId: 1,
+    content: "ありがとう。",
+    fromId: "710388387726753852",
+    from: "Uwaizumi.eth",
+    fromAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toId: "710388387726753852",
+    to: "Uwaizumi.eth",
+    toAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    thanksId: 3,
+    taskId: 1,
+    teamId: 1,
+    content: "ありがとう。",
+    fromId: "710388387726753852",
+    from: "Uwaizumi.eth",
+    fromAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toId: "710388387726753852",
+    to: "Uwaizumi.eth",
+    toAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    thanksId: 4,
+    taskId: 1,
+    teamId: 1,
+    content: "ありがとう。",
+    fromId: "710388387726753852",
+    from: "Uwaizumi.eth",
+    fromAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toId: "710388387726753852",
+    to: "Uwaizumi.eth",
+    toAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+];
+
 const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
   borderRadius: "1rem",
   backgroundColor: "#E5EEF0",
