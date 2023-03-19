@@ -37,10 +37,11 @@ dotenv.config({
 import { ethers } from "ethers";
 // ABIのインポート
 import abi from "./contracts/Unyte.json";
-const CONTRACT_ADDRESS = "0xaE270728bA33666714276F7feCA401DbB716ef7b";
+// Astar
+const CONTRACT_ADDRESS = "0xd08C0A04c755e2Ab46DE19302b340F8b58C36e28";
 // ABIの参照
 const ContractABI = abi.abi;
-const privateKey: any = process.env.PRIVATE_KEY;
+const privateKey: any = process.env.REACT_APP_PRIVATE_KEY;
 
 type Todo = {
   id: string;
@@ -225,21 +226,18 @@ const App: FC = () => {
     setMonths(tmp);
   }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const numberValue = 123456789;
-  //     const hexString = numberValue.toString(16);
-  //     console.log(privateKey)
-  //     const provider:any = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/OYM4nSdwayU_AlLiq50U7TFXnKqXXcuL');
-  //     console.log(provider)
-  //     const walletWithProvider = new ethers.Wallet(privateKey, provider);
-  //     console.log(walletWithProvider)
-  //     const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ContractABI, walletWithProvider);
-  //     console.log(connectedContract)
-  //     const tasks = await connectedContract.getAllTasks();
-  //     console.log(tasks)
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const provider:any = new ethers.providers.JsonRpcProvider('https://astar.blastapi.io/72fc6242-60a0-4d5c-b03d-5800687511c1');
+      console.log(provider)
+      const walletWithProvider = new ethers.Wallet(privateKey, provider);
+      console.log(walletWithProvider)
+      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ContractABI, walletWithProvider);
+      console.log(connectedContract)
+      const tasks = await connectedContract.getAllTasks();
+      console.log(tasks)
+    })();
+  }, []);
 
   const handleOpen = (id: string | number) => {
     setSelectedCard(sampleTasks.find((task) => task.taskId === id) || null);
