@@ -53,21 +53,21 @@ interface CardData {
   content: string;
 }
 interface Task {
-  taskId: string | number;
-  teamId: string | number;
+  taskId: any;
+  teamId: any;
   username: string;
   content: string;
   avatarURL: string;
 }
 interface Thanks {
-  thanksId: string | number;
-  teamId: string | number;
+  thanksId: any;
+  teamId: any;
   content: string;
-  taskId: string | number;
+  taskId: any;
   avatarURL: string;
 }
 interface NeumorphicCardProps extends CardData {
-  handleOpen: (id: string | number) => void;
+  handleOpen: (id: any) => void;
 }
 
 const sampleTasks: Task[] = [
@@ -248,6 +248,8 @@ const App: FC = () => {
   const handleClose = () => {
     setModalOpen(false);
   };
+
+  // const tasksToRender = date === 'ALL' ? filter
 
   return (
     <AllWrapper>
