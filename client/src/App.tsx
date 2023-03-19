@@ -214,12 +214,6 @@ const App: FC = () => {
       return Array.from(uniqueValues);
     };
     const uniqueNames = getUniqueValues(sampleTasks, "teamId");
-    // for (let i = 0; i < 12; i++) {
-    //   const option = ConvertUtils.generateSpecificYyyymm(i);
-    //   let optionDate = new Date(option + "-1");
-    //   let genesisDate = new Date("2022-11-1");
-    //   if (optionDate.getTime() > genesisDate.getTime()) tmp.push(option);
-    // }
     tmp = uniqueNames;
     tmp.unshift("ALL");
     setMonths(tmp);
@@ -227,14 +221,20 @@ const App: FC = () => {
 
   useEffect(() => {
     (async () => {
-      const provider:any = new ethers.providers.JsonRpcProvider('https://astar.blastapi.io/72fc6242-60a0-4d5c-b03d-5800687511c1');
-      console.log(provider)
+      const provider: any = new ethers.providers.JsonRpcProvider(
+        "https://astar.blastapi.io/72fc6242-60a0-4d5c-b03d-5800687511c1"
+      );
+      console.log(provider);
       const walletWithProvider = new ethers.Wallet(privateKey, provider);
-      console.log(walletWithProvider)
-      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ContractABI, walletWithProvider);
-      console.log(connectedContract)
+      console.log(walletWithProvider);
+      const connectedContract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        ContractABI,
+        walletWithProvider
+      );
+      console.log(connectedContract);
       const tasks = await connectedContract.getAllTasks();
-      console.log(tasks)
+      console.log(tasks);
     })();
   }, []);
 
