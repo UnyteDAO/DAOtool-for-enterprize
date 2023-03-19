@@ -188,6 +188,40 @@ const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
   );
 };
 
+const ThanksCard: React.FC<NeumorphicCardProps> = ({
+  thanksId,
+  content,
+  fromIconURL,
+  fromUsername,
+  toIconURL,
+  toUsername,
+  handleOpen,
+}) => {
+  return (
+    <NeumorphicCardWrapper onClick={() => handleOpen(thanksId)}>
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+          {content}
+        </Typography>
+        <Box display="flex" alignItems="center" mb={1}>
+          <p>from: </p>
+          <Avatar alt="Profile Picture" src={fromIconURL}></Avatar>
+          <Typography variant="h6" component="div" sx={{ ml: 1 }}>
+            {fromUsername}
+          </Typography>
+        </Box>
+        <Box display="flex" alignItems="center" mb={1}>
+          <p>to: </p>
+          <Avatar alt="Profile Picture" src={toIconURL}></Avatar>
+          <Typography variant="h6" component="div" sx={{ ml: 1 }}>
+            {toUsername}
+          </Typography>
+        </Box>
+      </CardContent>
+    </NeumorphicCardWrapper>
+  );
+};
+
 const App: FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState<CardData | null | any>(null);
@@ -221,7 +255,7 @@ const App: FC = () => {
       );
       const tasks = await connectedContract.getAllTasks();
       const thanks = await connectedContract.getAllThanks();
-      console.log(tasks);
+      console.dir(thanks);
       setOnchainTasks(tasks);
       setOnchainThanks(thanks);
     })();
@@ -315,11 +349,14 @@ const App: FC = () => {
               {selectedCard.username}
             </Typography>
             {thanksToRender.map(({ thanksId, username, content }) => (
-              <NeumorphicCard
+              <ThanksCard
                 key={thanksId}
-                id={thanksId}
-                username={username}
+                thanksId={thanksId}
                 content={content}
+                fromIconURL={fromIconURL}
+                fromUsername={fromUsername}
+                toIconURL={toIconURL}
+                toUsername={toUsername}
                 handleOpen={handleOpen}
               />
             ))}
