@@ -234,7 +234,9 @@ const App: FC = () => {
       );
       console.log(connectedContract);
       const tasks = await connectedContract.getAllTasks();
+      const thanks = await connectedContract.getAllThanks();
       console.log(tasks);
+      console.log(thanks);
     })();
   }, []);
 
@@ -263,24 +265,27 @@ const App: FC = () => {
         <p>for-enterprise</p>
       </UAppBar>
       <Wrapper>
-        <p>チーム選択</p>
-        <Select
-          labelId="periodLabel"
-          id="periodLabel"
-          value={date}
-          label="Period"
-          onChange={(e: any) => setDate(e.target.value as string)}
-        >
-          {months.map((item, i) => (
-            <MenuItem key={i} value={item}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-        <Box></Box>
         <Flex>
-          <Button>Tasks / Thanks</Button>
-          <Box></Box>
+          <p>チーム選択</p>
+          <Box sx={{ marginRight: "16px" }}></Box>
+          <Select
+            labelId="periodLabel"
+            id="periodLabel"
+            value={date}
+            label="Period"
+            onChange={(e: any) => setDate(e.target.value as string)}
+          >
+            {months.map((item, i) => (
+              <MenuItem key={i} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        </Flex>
+        <Box sx={{ marginTop: "16px" }}></Box>
+        <Flex>
+          <Button>Tasks/Thanks</Button>
+          <Box sx={{ marginRight: "16px" }}></Box>
           <Button>Dashboard</Button>
         </Flex>
         {tasksToRender.map(({ taskId, username, content }) => (
