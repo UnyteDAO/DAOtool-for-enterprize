@@ -249,35 +249,10 @@ const App: FC = () => {
     setModalOpen(false);
   };
 
-  // TODO: apiの呼び出しはファイルで切り出す
-  // const fetchUrl = useCallback(async () => {
-  //   const fragment = new URLSearchParams(window.location.hash.slice(1));
-  //   const [accessToken, tokenType] = [
-  //     fragment.get("access_token"),
-  //     fragment.get("token_type"),
-  //   ];
-  //   console.log(accessToken, tokenType);
-  //   if (accessToken !== null) {
-  //     console.log(accessToken);
-  //     console.log(tokenType);
-  //     fetch("https://discord.com/api/users/@me", {
-  //       headers: {
-  //         authorization: `${tokenType} ${accessToken}`,
-  //       },
-  //     })
-  //       .then((result) => result.json())
-  //       .then((response) => {
-  //         setATfunc.setATCallback(response); // Context値更新
-  //         setUser(response);
-  //       })
-  //       .catch(console.error);
-  //   }
-  // }, [setATfunc]);
-
   return (
     <AllWrapper>
       <UAppBar>
-        <img src="../../assets/icon_wide.png"></img>
+        <img src="../assets/icon_wide.png"></img>
         <p>for-enterprise</p>
       </UAppBar>
       <Wrapper>
