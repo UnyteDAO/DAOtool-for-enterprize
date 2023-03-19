@@ -30,7 +30,6 @@ dotenv.config({
 import { ethers } from "ethers";
 // ABIのインポート
 import abi from "./contracts/Unyte.json";
-import { height } from "@mui/system";
 // Astar
 const CONTRACT_ADDRESS = "0xd08C0A04c755e2Ab46DE19302b340F8b58C36e28";
 // ABIの参照
@@ -42,116 +41,6 @@ interface CardData {
   username: string;
   content: string;
 }
-interface Task {
-  taskId: any;
-  teamId: any;
-  username: string;
-  content: string;
-  avatarURL: string;
-}
-// interface Thanks {
-//   thanksId: any;
-//   teamId: any;
-//   content: string;
-//   taskId: any;
-//   avatarURL: string;
-// }
-// interface NeumorphicCardProps extends CardData {
-//   handleOpen: (id: any) => void;
-// }
-
-const sampleTasks: Task[] = [
-  {
-    taskId: 1,
-    teamId: 1,
-    username: "Uwaizumi.eth",
-    content: "将です",
-    avatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-  },
-  {
-    taskId: 2,
-    teamId: 1,
-    username: "Uwaizumi.eth",
-    content: "タスクです",
-    avatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-  },
-  {
-    taskId: 3,
-    teamId: 2,
-    username: "Uwaizumi.eth",
-    content: "たすくです",
-    avatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-  },
-  {
-    taskId: 4,
-    teamId: 3,
-    username: "Uwaizumi.eth",
-    content: "たすくです",
-    avatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-  },
-];
-const sampleThanks: any[] = [
-  {
-    thanksId: 1,
-    taskId: 1,
-    teamId: 1,
-    content: "ありがとう。",
-    fromId: "710388387726753852",
-    from: "Uwaizumi.eth",
-    fromAvatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-    toId: "710388387726753852",
-    to: "Uwaizumi.eth",
-    toAvatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-  },
-  {
-    thanksId: 2,
-    taskId: 1,
-    teamId: 1,
-    content: "ありがとう。",
-    fromId: "710388387726753852",
-    from: "Uwaizumi.eth",
-    fromAvatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-    toId: "710388387726753852",
-    to: "Uwaizumi.eth",
-    toAvatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-  },
-  {
-    thanksId: 3,
-    taskId: 1,
-    teamId: 1,
-    content: "ありがとう。",
-    fromId: "710388387726753852",
-    from: "Uwaizumi.eth",
-    fromAvatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-    toId: "710388387726753852",
-    to: "Uwaizumi.eth",
-    toAvatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-  },
-  {
-    thanksId: 4,
-    taskId: 1,
-    teamId: 1,
-    content: "ありがとう。",
-    fromId: "710388387726753852",
-    from: "Uwaizumi.eth",
-    fromAvatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-    toId: "710388387726753852",
-    to: "Uwaizumi.eth",
-    toAvatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-  },
-];
 
 const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
   borderRadius: "1rem",
@@ -166,39 +55,46 @@ const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
 
 const NeumorphicCard: React.FC<any> = ({
   id,
-  username,
-  imageUrl,
   content,
+  userName,
+  userIconURL,
+  teamIconURL,
+  teamName,
   handleOpen,
 }) => {
   return (
     <NeumorphicCardWrapper onClick={() => handleOpen(id)}>
       <CardContent>
         <Box display="flex" alignItems="center" mb={1}>
-          <Avatar alt="Profile Picture" src={imageUrl}></Avatar>
+          <Avatar alt="Profile Picture" src={teamIconURL}></Avatar>
           <Typography variant="h6" component="div" sx={{ ml: 1 }}>
-            {username}
+            {teamName}
           </Typography>
         </Box>
         <Typography variant="body2" color="text.secondary">
           {content}
         </Typography>
+        <Box display="flex" alignItems="center" mb={1}>
+          <p>created by: </p>
+          <Avatar alt="Profile Picture" src={userIconURL}></Avatar>
+          <Typography variant="h6" component="div" sx={{ ml: 1 }}>
+            {userName}
+          </Typography>
+        </Box>
       </CardContent>
     </NeumorphicCardWrapper>
   );
 };
 
 const ThanksCard: React.FC<any> = ({
-  thanksId,
   content,
   fromIconURL,
   fromUsername,
   toIconURL,
   toUsername,
-  handleOpen,
 }) => {
   return (
-    <NeumorphicCardWrapper onClick={() => handleOpen(thanksId)}>
+    <NeumorphicCardWrapper>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {content}
@@ -230,17 +126,18 @@ const App: FC = () => {
   const [onchainTasks, setOnchainTasks] = useState([]);
   const [onchainThanks, setOnchainThanks] = useState([]);
 
-  useEffect(() => {
-    let tmp: any = [];
-    const getUniqueValues = (array: any, key: any) => {
-      const uniqueValues = new Set(array.map((item: any) => item[key]));
-      return Array.from(uniqueValues);
-    };
-    const uniqueNames = getUniqueValues(sampleTasks, "teamId");
-    tmp = uniqueNames;
-    tmp.unshift("ALL");
-    setMonths(tmp);
-  }, []);
+  // useEffect(() => {
+  //   let tmp: any = [];
+  //   const getUniqueValues = (array: any, key: any) => {
+  //     const uniqueValues = new Set(array.map((item: any) => item[key]));
+  //     return Array.from(uniqueValues);
+  //   };
+  //   // TODO
+  //   const uniqueNames = getUniqueValues(onchainTasks, "teamId");
+  //   tmp = uniqueNames;
+  //   tmp.unshift("ALL");
+  //   setMonths(tmp);
+  // }, []);
 
   useEffect(() => {
     (async () => {
@@ -255,14 +152,25 @@ const App: FC = () => {
       );
       const tasks = await connectedContract.getAllTasks();
       const thanks = await connectedContract.getAllThanks();
-      console.dir(thanks);
       setOnchainTasks(tasks);
       setOnchainThanks(thanks);
+      console.dir(thanks);
+      let tmp: any = [];
+      const getUniqueValues = (array: any, key: any) => {
+        const uniqueValues = new Set(array.map((item: any) => item[key]));
+        return Array.from(uniqueValues);
+      };
+      const uniqueNames = getUniqueValues(onchainTasks, "teamId");
+      tmp = uniqueNames;
+      tmp.unshift("ALL");
+      setMonths(tmp);
     })();
   }, []);
 
   const handleOpen = (id: string | number) => {
-    setSelectedCard(sampleTasks.find((task) => task.taskId === id) || null);
+    setSelectedCard(
+      onchainTasks.find((task: any) => task.taskId === id) || null
+    );
     setModalOpen(true);
   };
 
@@ -283,7 +191,6 @@ const App: FC = () => {
     <AllWrapper>
       <UAppBar>
         <img src={dummy} style={{ height: 60 }}></img>
-        {/* <p>for-enterprise</p> */}
       </UAppBar>
       <Wrapper>
         <Flex>
@@ -309,15 +216,27 @@ const App: FC = () => {
           <Box sx={{ marginRight: "16px" }}></Box>
           <Button>Dashboard</Button>
         </Flex>
-        {tasksToRender.map(({ taskId, username, content }) => (
-          <NeumorphicCard
-            key={taskId}
-            id={taskId}
-            username={username}
-            content={content}
-            handleOpen={handleOpen}
-          />
-        ))}
+        {tasksToRender.map(
+          ({
+            taskId,
+            content,
+            teamName,
+            teamIconURL,
+            userIconURL,
+            userName,
+          }) => (
+            <NeumorphicCard
+              key={taskId}
+              id={taskId}
+              content={content}
+              teamIconURL={teamIconURL}
+              teamName={teamName}
+              userName={userName}
+              userIconURL={userIconURL}
+              handleOpen={handleOpen}
+            />
+          )
+        )}
       </Wrapper>
       <Modal
         open={modalOpen}
@@ -348,18 +267,21 @@ const App: FC = () => {
             <Typography id="modal-description" sx={{ mt: 2 }}>
               {selectedCard.username}
             </Typography>
-            {thanksToRender.map(({ thanksId, username, content }) => (
-              <ThanksCard
-                key={thanksId}
-                thanksId={thanksId}
-                content={content}
-                fromIconURL={fromIconURL}
-                fromUsername={fromUsername}
-                toIconURL={toIconURL}
-                toUsername={toUsername}
-                handleOpen={handleOpen}
-              />
-            ))}
+            {thanksToRender.map(
+              (
+                { content, fromIconURL, fromName, toIconURL, toName },
+                index
+              ) => (
+                <ThanksCard
+                  key={index}
+                  content={content}
+                  fromIconURL={fromIconURL}
+                  fromUsername={fromName}
+                  toIconURL={toIconURL}
+                  toUsername={toName}
+                />
+              )
+            )}
           </Paper>
         ) : (
           <Paper></Paper>
