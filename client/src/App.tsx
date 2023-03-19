@@ -96,7 +96,7 @@ const sampleTasks: Task[] = [
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
   },
   {
-    taskId: 3,
+    taskId: 4,
     teamId: 3,
     username: "Uwaizumi.eth",
     content: "たすくです",
@@ -147,6 +147,20 @@ const sampleThanks: any[] = [
     toAvatarURL:
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
   },
+  {
+    thanksId: 4,
+    taskId: 1,
+    teamId: 1,
+    content: "ありがとう。",
+    fromId: "710388387726753852",
+    from: "Uwaizumi.eth",
+    fromAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toId: "710388387726753852",
+    to: "Uwaizumi.eth",
+    toAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
 ];
 
 const cardData: CardData[] = [
@@ -178,7 +192,6 @@ const thanksCardData: CardData[] = [
 const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
   borderRadius: "1rem",
   backgroundColor: "#E5EEF0",
-  // background: "linear-gradient(to right, #ff7f50, #ff1493)",
   boxShadow: "10px 10px 10px #d9d9d9, -10px -10px 10px #ffffff",
   textDecoration: "none",
   minWidth: 275,
@@ -334,10 +347,10 @@ const App: FC = () => {
             <Typography id="modal-description" sx={{ mt: 2 }}>
               {!selectedCard.content}
             </Typography>
-            {sampleThanks.map(({ id, userName, content }) => (
+            {sampleThanks.map(({ thanksId, userName, content }) => (
               <NeumorphicCard
-                key={id}
-                id={id}
+                key={thanksId}
+                id={thanksId}
                 userName={userName}
                 content={content}
                 handleOpen={handleOpen}
