@@ -21,6 +21,8 @@ import { Wrapper, AllWrapper, UAppBar, Flex } from "./StyledComps";
 import path from "path";
 import dotenv from "dotenv";
 
+import dummy from "./assets/icon_wide.png"
+
 dotenv.config({
   path: path.resolve(__dirname, ".env"),
 });
@@ -28,6 +30,7 @@ dotenv.config({
 import { ethers } from "ethers";
 // ABIのインポート
 import abi from "./contracts/Unyte.json";
+import { height } from "@mui/system";
 // Astar
 const CONTRACT_ADDRESS = "0xd08C0A04c755e2Ab46DE19302b340F8b58C36e28";
 // ABIの参照
@@ -246,7 +249,7 @@ const App: FC = () => {
   return (
     <AllWrapper>
       <UAppBar>
-        <img src="../assets/icon_wide.png"></img>
+        <img src={dummy} style={{height:60}}></img>
         <p>for-enterprise</p>
       </UAppBar>
       <Wrapper>
