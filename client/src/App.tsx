@@ -56,9 +56,9 @@ interface Task {
 //   taskId: any;
 //   avatarURL: string;
 // }
-interface NeumorphicCardProps extends CardData {
-  handleOpen: (id: any) => void;
-}
+// interface NeumorphicCardProps extends CardData {
+//   handleOpen: (id: any) => void;
+// }
 
 const sampleTasks: Task[] = [
   {
@@ -164,7 +164,7 @@ const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
   width: "80%",
 }));
 
-const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
+const NeumorphicCard: React.FC<any> = ({
   id,
   username,
   imageUrl,
@@ -188,7 +188,7 @@ const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
   );
 };
 
-const ThanksCard: React.FC<NeumorphicCardProps> = ({
+const ThanksCard: React.FC<any> = ({
   thanksId,
   content,
   fromIconURL,
