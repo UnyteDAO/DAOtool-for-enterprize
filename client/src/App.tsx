@@ -89,7 +89,15 @@ const sampleTasks: Task[] = [
   },
   {
     taskId: 3,
-    teamId: 1,
+    teamId: 2,
+    username: "Uwaizumi.eth",
+    content: "たすくです",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    taskId: 3,
+    teamId: 3,
     username: "Uwaizumi.eth",
     content: "たすくです",
     avatarURL:
@@ -112,7 +120,7 @@ const sampleThanks: any[] = [
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
   },
   {
-    thanksId: 1,
+    thanksId: 2,
     taskId: 1,
     teamId: 1,
     content: "ありがとう。",
@@ -126,7 +134,7 @@ const sampleThanks: any[] = [
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
   },
   {
-    thanksId: 1,
+    thanksId: 3,
     taskId: 1,
     teamId: 1,
     content: "ありがとう。",
@@ -214,12 +222,18 @@ const App: FC = () => {
 
   useEffect(() => {
     let tmp: any = [];
+    const getUniqueValues = (array: any, key: any) => {
+      const uniqueValues = new Set(array.map((item: any) => item[key]));
+      return Array.from(uniqueValues);
+    };
+    const uniqueNames = getUniqueValues(sampleTasks, "teamId");
     // for (let i = 0; i < 12; i++) {
     //   const option = ConvertUtils.generateSpecificYyyymm(i);
     //   let optionDate = new Date(option + "-1");
     //   let genesisDate = new Date("2022-11-1");
     //   if (optionDate.getTime() > genesisDate.getTime()) tmp.push(option);
     // }
+    tmp = uniqueNames;
     tmp.unshift("ALL");
     setMonths(tmp);
   }, []);
@@ -249,7 +263,10 @@ const App: FC = () => {
     setModalOpen(false);
   };
 
-  // const tasksToRender = date === 'ALL' ? filter
+  const tasksToRender =
+    date === "ALL"
+      ? sampleTasks
+      : sampleTasks.filter((item) => item.teamId === date);
 
   return (
     <AllWrapper>
@@ -277,7 +294,7 @@ const App: FC = () => {
           <Box></Box>
           <Button>Dashboard</Button>
         </Flex>
-        {sampleTasks.map(({ taskId, username, content }) => (
+        {tasksToRender.map(({ taskId, username, content }) => (
           <NeumorphicCard
             key={taskId}
             id={taskId}
