@@ -49,7 +49,7 @@ type Todo = {
 };
 interface CardData {
   id: number;
-  userName: string;
+  username: string;
   content: string;
 }
 interface Task {
@@ -89,7 +89,15 @@ const sampleTasks: Task[] = [
   },
   {
     taskId: 3,
-    teamId: 1,
+    teamId: 2,
+    username: "Uwaizumi.eth",
+    content: "たすくです",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    taskId: 4,
+    teamId: 3,
     username: "Uwaizumi.eth",
     content: "たすくです",
     avatarURL:
@@ -112,7 +120,7 @@ const sampleThanks: any[] = [
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
   },
   {
-    thanksId: 1,
+    thanksId: 2,
     taskId: 1,
     teamId: 1,
     content: "ありがとう。",
@@ -126,7 +134,21 @@ const sampleThanks: any[] = [
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
   },
   {
-    thanksId: 1,
+    thanksId: 3,
+    taskId: 1,
+    teamId: 1,
+    content: "ありがとう。",
+    fromId: "710388387726753852",
+    from: "Uwaizumi.eth",
+    fromAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toId: "710388387726753852",
+    to: "Uwaizumi.eth",
+    toAvatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    thanksId: 4,
     taskId: 1,
     teamId: 1,
     content: "ありがとう。",
@@ -141,36 +163,9 @@ const sampleThanks: any[] = [
   },
 ];
 
-const cardData: CardData[] = [
-  { id: 1, userName: "User 1", content: "This is a sample content." },
-  { id: 2, userName: "User 2", content: "This is another sample content." },
-  { id: 13, userName: "User 1", content: "This is a sample content." },
-  { id: 3343, userName: "User 2", content: "This is another sample content." },
-  { id: 3424234, userName: "User 1", content: "This is a sample content." },
-  { id: 21, userName: "User 2", content: "This is another sample content." },
-  // ...
-];
-
-const thanksCardData: CardData[] = [
-  { id: 1, userName: "User 1", content: "This is a sample content." },
-  { id: 2, userName: "User 2", content: "This is another sample content." },
-  { id: 13, userName: "User 1", content: "This is a sample content." },
-  { id: 3343, userName: "User 2", content: "This is another sample content." },
-  { id: 3424234, userName: "User 1", content: "This is a sample content." },
-  { id: 21, userName: "User 2", content: "This is another sample content." },
-  { id: 1, userName: "User 1", content: "This is a sample content." },
-  { id: 2, userName: "User 2", content: "This is another sample content." },
-  { id: 13, userName: "User 1", content: "This is a sample content." },
-  { id: 3343, userName: "User 2", content: "This is another sample content." },
-  { id: 3424234, userName: "User 1", content: "This is a sample content." },
-  { id: 21, userName: "User 2", content: "This is another sample content." },
-  // ...
-];
-
 const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
   borderRadius: "1rem",
   backgroundColor: "#E5EEF0",
-  // background: "linear-gradient(to right, #ff7f50, #ff1493)",
   boxShadow: "10px 10px 10px #d9d9d9, -10px -10px 10px #ffffff",
   textDecoration: "none",
   minWidth: 275,
@@ -181,7 +176,7 @@ const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
 
 const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
   id,
-  userName,
+  username,
   content,
   handleOpen,
 }) => {
@@ -193,7 +188,7 @@ const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
             <AccountCircle />
           </Avatar>
           <Typography variant="h6" component="div" sx={{ ml: 1 }}>
-            {userName}
+            {username}
           </Typography>
         </Box>
         <Typography variant="body2" color="text.secondary">
@@ -214,12 +209,18 @@ const App: FC = () => {
 
   useEffect(() => {
     let tmp: any = [];
+    const getUniqueValues = (array: any, key: any) => {
+      const uniqueValues = new Set(array.map((item: any) => item[key]));
+      return Array.from(uniqueValues);
+    };
+    const uniqueNames = getUniqueValues(sampleTasks, "teamId");
     // for (let i = 0; i < 12; i++) {
     //   const option = ConvertUtils.generateSpecificYyyymm(i);
     //   let optionDate = new Date(option + "-1");
     //   let genesisDate = new Date("2022-11-1");
     //   if (optionDate.getTime() > genesisDate.getTime()) tmp.push(option);
     // }
+    tmp = uniqueNames;
     tmp.unshift("ALL");
     setMonths(tmp);
   }, []);
@@ -241,7 +242,7 @@ const App: FC = () => {
   // }, []);
 
   const handleOpen = (id: string | number) => {
-    setSelectedCard(cardData.find((card) => card.id === id) || null);
+    setSelectedCard(sampleTasks.find((task) => task.taskId === id) || null);
     setModalOpen(true);
   };
 
@@ -249,7 +250,14 @@ const App: FC = () => {
     setModalOpen(false);
   };
 
-  // const tasksToRender = date === 'ALL' ? filter
+  const tasksToRender =
+    date === "ALL"
+      ? sampleTasks
+      : sampleTasks.filter((item) => item.teamId === date);
+
+  const thanksToRender = modalOpen
+    ? sampleThanks.filter((item) => item.taskId === selectedCard.taskId)
+    : [];
 
   return (
     <AllWrapper>
@@ -277,11 +285,11 @@ const App: FC = () => {
           <Box></Box>
           <Button>Dashboard</Button>
         </Flex>
-        {sampleTasks.map(({ taskId, username, content }) => (
+        {tasksToRender.map(({ taskId, username, content }) => (
           <NeumorphicCard
             key={taskId}
             id={taskId}
-            userName={username}
+            username={username}
             content={content}
             handleOpen={handleOpen}
           />
@@ -303,7 +311,6 @@ const App: FC = () => {
               width: "60%",
               maxWidth: "900px",
               bgcolor: "#E5EEF0",
-              // background: "linear-gradient(to right, #ff7f50, #ff1493)",
               boxShadow: 24,
               p: 4,
               maxHeight: "60vh",
@@ -312,16 +319,16 @@ const App: FC = () => {
             }}
           >
             <Typography id="modal-title" variant="h6" component="h2">
-              {selectedCard.userName}
+              {selectedCard.content}
             </Typography>
             <Typography id="modal-description" sx={{ mt: 2 }}>
-              {!selectedCard.content}
+              {selectedCard.username}
             </Typography>
-            {sampleThanks.map(({ id, userName, content }) => (
+            {thanksToRender.map(({ thanksId, username, content }) => (
               <NeumorphicCard
-                key={id}
-                id={id}
-                userName={userName}
+                key={thanksId}
+                id={thanksId}
+                username={username}
                 content={content}
                 handleOpen={handleOpen}
               />
