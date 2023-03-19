@@ -78,60 +78,31 @@ const sampleTasks: Task[] = [
 ];
 const sampleThanks: any[] = [
   {
-    thanksId: 1,
-    taskId: 1,
-    teamId: 1,
-    content: "ありがとう。",
-    fromId: "710388387726753852",
-    from: "Uwaizumi.eth",
-    fromAvatarURL:
+    content: "ありがとう！",
+    fromIconURL:
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-    toId: "710388387726753852",
-    to: "Uwaizumi.eth",
-    toAvatarURL:
+    fromName: "Uwaizumi.eth",
+    toIconURL:
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toName: "yoshito",
   },
   {
-    thanksId: 2,
-    taskId: 1,
-    teamId: 1,
-    content: "ありがとう。",
-    fromId: "710388387726753852",
-    from: "Uwaizumi.eth",
-    fromAvatarURL:
+    content: "おそくまでありがとう！",
+    fromIconURL:
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-    toId: "710388387726753852",
-    to: "Uwaizumi.eth",
-    toAvatarURL:
+    fromName: "Uwaizumi.eth",
+    toIconURL:
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toName: "yoshito",
   },
   {
-    thanksId: 3,
-    taskId: 1,
-    teamId: 1,
-    content: "ありがとう。",
-    fromId: "710388387726753852",
-    from: "Uwaizumi.eth",
-    fromAvatarURL:
+    content: "タスク整理ありがとう！",
+    fromIconURL:
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-    toId: "710388387726753852",
-    to: "Uwaizumi.eth",
-    toAvatarURL:
+    fromName: "Uwaizumi.eth",
+    toIconURL:
       "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-  },
-  {
-    thanksId: 4,
-    taskId: 1,
-    teamId: 1,
-    content: "ありがとう。",
-    fromId: "710388387726753852",
-    from: "Uwaizumi.eth",
-    fromAvatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
-    toId: "710388387726753852",
-    to: "Uwaizumi.eth",
-    toAvatarURL:
-      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toName: "yoshito",
   },
 ];
 
@@ -360,7 +331,7 @@ const App: FC = () => {
             <Typography id="modal-description" sx={{ mt: 2 }}>
               {selectedCard.username}
             </Typography>
-            {thanksToRender.map(
+            {sampleThanks.map(
               (
                 { content, fromIconURL, fromName, toIconURL, toName },
                 index
