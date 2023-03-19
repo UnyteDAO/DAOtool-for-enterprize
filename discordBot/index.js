@@ -94,7 +94,8 @@ client.on("interactionCreate", async (interaction) => {
             const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, walletWithProvider);
             console.log("コントラクト起動")
 
-            const taskId = new BigNumber(interaction.options.get('task_id'))
+            const taskId = interaction.options.get('task_id').value
+            console.log(taskId)
 
             const user = await client.users.fetch(interaction.user.id);
             const from = user.id;
