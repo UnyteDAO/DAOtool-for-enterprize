@@ -1,6 +1,4 @@
 import React, { useCallback, useState, FC } from "react";
-import logo from "./logo.svg";
-import "./App.css";
 import { theme } from "./CreateTheme";
 import { ThemeProvider } from "@mui/material/styles";
 import { v4 as uuidv4 } from "uuid";
@@ -22,7 +20,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { AccountCircle } from "@mui/icons-material";
-import { Wrapper } from "./StyledComps";
+import { Wrapper, AllWrapper } from "./StyledComps";
 import { Link } from "react-router-dom";
 
 type Todo = {
@@ -49,8 +47,9 @@ const cardData: CardData[] = [
 
 const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
   borderRadius: "1rem",
-  backgroundColor: "#f0f0f0",
-  boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff",
+  backgroundColor: "#E5EEF0",
+  boxShadow: "10px 10px 10px #d9d9d9, -10px -10px 10px #ffffff",
+  textDecoration: "none",
   minWidth: 275,
   marginTop: theme.spacing(4),
   marginBottom: theme.spacing(4),
@@ -140,34 +139,29 @@ const App: FC = () => {
   };
 
   return (
-    // <Box>
-    <ThemeProvider theme={theme}>
+    <AllWrapper>
       <AppBar>
-        <Link to="/">
-          <Box
-            component="img"
-            justifyContent="left"
-            sx={{
-              height: 64,
-              display: { xs: "none", md: "flex" },
-            }}
-            alt="Your logo."
-            src={`../../../../icon_wide.png`}
-          ></Box>
-        </Link>
-        <Link to="/">
-          <Box
-            component="img"
-            justifyContent="left"
-            sx={{
-              height: 64,
-              display: { xs: "flex", md: "none" },
-              ml: 4,
-            }}
-            alt="Your logo."
-            src={`../../../../icon.png`}
-          ></Box>
-        </Link>
+        <Box
+          component="img"
+          justifyContent="left"
+          sx={{
+            height: 64,
+            display: { xs: "none", md: "flex" },
+          }}
+          alt="Your logo."
+          src={`./assets/icon_wide.png`}
+        ></Box>
+        <Box
+          component="img"
+          justifyContent="left"
+          sx={{
+            height: 64,
+            display: { xs: "flex", md: "none" },
+            ml: 4,
+          }}
+          alt="Your logo."
+          src={`./assets/icon.png`}
+        ></Box>
       </AppBar>
       <Wrapper>
         {cardData.map(({ id, userName, content }) => (
@@ -179,58 +173,7 @@ const App: FC = () => {
           />
         ))}
       </Wrapper>
-    </ThemeProvider>
-    // </Box>
-
-    /* <Typography variant="h4" gutterBottom>
-        Todo List
-      </Typography>
-
-      <TextField
-        label="New Todo"
-        variant="outlined"
-        size="small"
-        value={inputValue}
-        onChange={handleInputChange}
-      />
-
-      <Button
-        variant="contained"
-        onClick={handleAddTodo}
-        disabled={!inputValue.trim()}
-      >
-        Add Todo
-      </Button> */
-    /* <List>
-        {todos.map((todo) => (
-          <ListItem
-            key={todo.id}
-            dense
-            button
-            onClick={() => handleToggleTodo(todo.id)}
-          >
-            <Checkbox
-              edge="start"
-              checked={todo.completed}
-              tabIndex={-1}
-              disableRipple
-            />
-
-            <ListItemText
-              style={{
-                textDecoration: todo.completed ? "line-through" : "none",
-              }}
-              primary={todo.text}
-            />
-
-            <ListItemSecondaryAction>
-              <IconButton edge="end" onClick={() => handleDeleteTodo(todo.id)}>
-                <DeleteIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
-      </List> */
+    </AllWrapper>
   );
 };
 
