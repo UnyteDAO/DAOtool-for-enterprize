@@ -14,9 +14,16 @@ import {
   AppBar,
 } from "@mui/material";
 
+export const Flex = styled("div")({
+  display: "flex",
+  alignItems: "center",
+});
+
 export const AllWrapper = styled("div")({
   // background: "linear-gradient(to right, #ff7f50, #ff1493)",
+  backgroundColor: "#E5EEF0",
   paddingTop: "100px",
+  minHeight: "100vh",
 });
 
 export const Wrapper = styled("div")({
@@ -26,6 +33,7 @@ export const Wrapper = styled("div")({
   flexDirection: "column",
   // justifyContent: "start",
   alignItems: "start",
+  backgroundColor: "#E5EEF0",
   // background: "linear-gradient(to right, #ff7f50, #ff1493)",
   // color: "darkslategray",
   // backgroundColor: "aliceblue",
@@ -38,5 +46,6 @@ export const UAppBar = styled(AppBar)(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  backgroundColor: "#BDC7CA",
+  // backgroundColor: "#BDC7CA",
+  background: "linear-gradient(to right, #ff7f50, #ff1493)",
 }));

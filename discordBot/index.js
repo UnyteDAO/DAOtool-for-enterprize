@@ -33,13 +33,14 @@ client.once(Events.ClientReady, (c) => {
 
 // ethersのセットアップ
 const ethers = require("ethers");
-// const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
+// Astar
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 
 // Polygonの経歴証明
 // const CONTRACT_ADDRESS = "0x630911Dc7B90E81584839174a4F95A194A7B7544";
 // const contract = require("../contracts/contributionNFT.json");
 
-const CONTRACT_ADDRESS = "0xaE270728bA33666714276F7feCA401DbB716ef7b";
+// const CONTRACT_ADDRESS = "0xEB4c7c27c8055a3fAFc20e491A157f0641d46cE0";
 const contract = require("../contracts/Unyte.json");
 
 const abi = contract.abi;
@@ -55,9 +56,9 @@ client.on("interactionCreate", async (interaction) => {
 
     if (interaction.commandName === "task") {
         await interaction.deferReply();
-        await interaction.followUp(":sparkles:トランザクションを処理しています:sparkles:").then(async msg => {
+        await interaction.followUp("<a:loading:1086922993692848151>トランザクションを処理しています<a:loading:1086922993692848151>").then(async msg => {
             // Mumbai
-            const provider = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/OYM4nSdwayU_AlLiq50U7TFXnKqXXcuL');
+            const provider = new ethers.providers.JsonRpcProvider('https://astar.blastapi.io/72fc6242-60a0-4d5c-b03d-5800687511c1');
             const walletWithProvider = new ethers.Wallet(privateKey, provider);
             const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, walletWithProvider);
             console.log("コントラクト起動")
@@ -72,7 +73,7 @@ client.on("interactionCreate", async (interaction) => {
             const userName = user.username;
             const userIconURL = user.avatarURL() ?? "";
 
-            const content = interaction.options.get('content');
+            const content = interaction.options.get('content').value;
 
             console.log(`teamId: ${teamId}\nteamName: ${teamName}\nteamIconURL: ${teamIconURL}\n\n\nuserId: ${userId}\nuserName: ${userName}\nuserIconURL: ${userIconURL}\n\n\ncontent: ${content}`);
 
@@ -81,15 +82,15 @@ client.on("interactionCreate", async (interaction) => {
             console.log(addTaskTxn);
             await addTaskTxn.wait();
             console.log(`Mined, see transaction: ${addTaskTxn.hash}`);
-            msg.edit("トランザクションが完了しました！");
+            msg.edit(":white_check_mark:トランザクションが完了しました！");
         });
     }
 
     if (interaction.commandName === "thanks") {
         await interaction.deferReply();
-        await interaction.followUp(":sparkles:トランザクションを処理しています:sparkles:").then(async msg => {
+        await interaction.followUp("<a:loading:1086922993692848151>トランザクションを処理しています<a:loading:1086922993692848151>").then(async msg => {
             // Mumbai
-            const provider = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/OYM4nSdwayU_AlLiq50U7TFXnKqXXcuL');
+            const provider = new ethers.providers.JsonRpcProvider('https://astar.blastapi.io/72fc6242-60a0-4d5c-b03d-5800687511c1');
             const walletWithProvider = new ethers.Wallet(privateKey, provider);
             const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, abi, walletWithProvider);
             console.log("コントラクト起動")
@@ -108,7 +109,7 @@ client.on("interactionCreate", async (interaction) => {
             const toName = toUser.username;
             const toIconURL = toUser.avatarURL() ?? ""
 
-            const content = interaction.options.get('message');
+            const content = interaction.options.get('message').value;
 
             console.log(`taskId: ${taskId}\n\n\nfrom: ${from}\nfromName: ${fromName}\nfromIconURL: ${fromIconURL}\n\n\nto: ${to}\ntoName: ${toName}\ntoIconURL: ${toIconURL}\n\n\ncontent: ${content}`);
 
@@ -117,7 +118,7 @@ client.on("interactionCreate", async (interaction) => {
             console.log(addThanksTxn);
             await addThanksTxn.wait();
             console.log(`Mined, see transaction: ${addThanksTxn.hash}`);
-            msg.edit("トランザクションが完了しました！");
+            msg.edit(":white_check_mark:トランザクションが完了しました！");
         });
     }
 })

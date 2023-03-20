@@ -4,19 +4,11 @@ import { ThemeProvider } from "@mui/material/styles";
 import { v4 as uuidv4 } from "uuid";
 import {
   Typography,
-  TextField,
   Button,
-  Checkbox,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
   Box,
   Card,
   CardContent,
   Avatar,
-  AppBar,
   Modal,
   Paper,
   Select,
@@ -24,68 +16,99 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { AccountCircle } from "@mui/icons-material";
-import { Wrapper, AllWrapper, UAppBar } from "./StyledComps";
-import { Link } from "react-router-dom";
+import { Wrapper, AllWrapper, UAppBar, Flex } from "./StyledComps";
 
 import path from "path";
 import dotenv from "dotenv";
 
+import dummy from "./assets/iconwhite.webp";
+
 dotenv.config({
-    path: path.resolve(__dirname, ".env"),
+  path: path.resolve(__dirname, ".env"),
 });
 
 import { ethers } from "ethers";
 // ABIのインポート
 import abi from "./contracts/Unyte.json";
-const CONTRACT_ADDRESS = "0xaE270728bA33666714276F7feCA401DbB716ef7b";
+// Astar
+const CONTRACT_ADDRESS = "0xd08C0A04c755e2Ab46DE19302b340F8b58C36e28";
 // ABIの参照
 const ContractABI = abi.abi;
-const privateKey:any = process.env.PRIVATE_KEY
+const privateKey: any = process.env.REACT_APP_PRIVATE_KEY;
 
-type Todo = {
-  id: string;
-  text: string;
-  completed: boolean;
-};
 interface CardData {
   id: number;
-  userName: string;
+  username: string;
   content: string;
 }
-interface NeumorphicCardProps extends CardData {
-  handleOpen: (id: number) => void;
-}
 
-const cardData: CardData[] = [
-  { id: 1, userName: "User 1", content: "This is a sample content." },
-  { id: 2, userName: "User 2", content: "This is another sample content." },
-  { id: 13, userName: "User 1", content: "This is a sample content." },
-  { id: 3343, userName: "User 2", content: "This is another sample content." },
-  { id: 3424234, userName: "User 1", content: "This is a sample content." },
-  { id: 21, userName: "User 2", content: "This is another sample content." },
-  // ...
+const sampleTasks: Task[] = [
+  {
+    taskId: 1,
+    teamId: 1,
+    username: "Uwaizumi.eth",
+    content: "将です",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    taskId: 2,
+    teamId: 1,
+    username: "Uwaizumi.eth",
+    content: "タスクです",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    taskId: 3,
+    teamId: 2,
+    username: "Uwaizumi.eth",
+    content: "たすくです",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
+  {
+    taskId: 4,
+    teamId: 3,
+    username: "Uwaizumi.eth",
+    content: "たすくです",
+    avatarURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+  },
 ];
-
-const thanksCardData: CardData[] = [
-  { id: 1, userName: "User 1", content: "This is a sample content." },
-  { id: 2, userName: "User 2", content: "This is another sample content." },
-  { id: 13, userName: "User 1", content: "This is a sample content." },
-  { id: 3343, userName: "User 2", content: "This is another sample content." },
-  { id: 3424234, userName: "User 1", content: "This is a sample content." },
-  { id: 21, userName: "User 2", content: "This is another sample content." },
-  { id: 1, userName: "User 1", content: "This is a sample content." },
-  { id: 2, userName: "User 2", content: "This is another sample content." },
-  { id: 13, userName: "User 1", content: "This is a sample content." },
-  { id: 3343, userName: "User 2", content: "This is another sample content." },
-  { id: 3424234, userName: "User 1", content: "This is a sample content." },
-  { id: 21, userName: "User 2", content: "This is another sample content." },
-  // ...
+const sampleThanks: any[] = [
+  {
+    content: "ありがとう！",
+    fromIconURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    fromName: "Uwaizumi.eth",
+    toIconURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toName: "yoshito",
+  },
+  {
+    content: "おそくまでありがとう！",
+    fromIconURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    fromName: "Uwaizumi.eth",
+    toIconURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toName: "yoshito",
+  },
+  {
+    content: "タスク整理ありがとう！",
+    fromIconURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    fromName: "Uwaizumi.eth",
+    toIconURL:
+      "https://cdn.discordapp.com/guilds/945194711973498920/users/710388387726753852/avatars/a_b6744366c5a8b502ca2418bf9e162a10.webp?size=160",
+    toName: "yoshito",
+  },
 ];
 
 const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
   borderRadius: "1rem",
-  // backgroundColor: "#E5EEF0",
-  background: "linear-gradient(to right, #ff7f50, #ff1493)",
+  backgroundColor: "#E5EEF0",
   boxShadow: "10px 10px 10px #d9d9d9, -10px -10px 10px #ffffff",
   textDecoration: "none",
   minWidth: 275,
@@ -94,70 +117,124 @@ const NeumorphicCardWrapper = styled(Card)(({ theme }) => ({
   width: "80%",
 }));
 
-const NeumorphicCard: React.FC<NeumorphicCardProps> = ({
+const NeumorphicCard: React.FC<any> = ({
   id,
-  userName,
   content,
+  userName,
+  userIconURL,
+  teamIconURL,
+  teamName,
   handleOpen,
 }) => {
   return (
     <NeumorphicCardWrapper onClick={() => handleOpen(id)}>
       <CardContent>
         <Box display="flex" alignItems="center" mb={1}>
-          <Avatar>
-            <AccountCircle />
-          </Avatar>
+          <Avatar alt="Profile Picture" src={teamIconURL}></Avatar>
           <Typography variant="h6" component="div" sx={{ ml: 1 }}>
-            {userName}
+            {teamName}
           </Typography>
         </Box>
         <Typography variant="body2" color="text.secondary">
           {content}
         </Typography>
+        <Box display="flex" alignItems="center" mb={1}>
+          <p>created by: </p>
+          <Avatar alt="Profile Picture" src={userIconURL}></Avatar>
+          <Typography variant="h6" component="div" sx={{ ml: 1 }}>
+            {userName}
+          </Typography>
+        </Box>
+      </CardContent>
+    </NeumorphicCardWrapper>
+  );
+};
+
+const ThanksCard: React.FC<any> = ({
+  content,
+  fromIconURL,
+  fromUsername,
+  toIconURL,
+  toUsername,
+}) => {
+  return (
+    <NeumorphicCardWrapper>
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+          {content}
+        </Typography>
+        <Box display="flex" alignItems="center" mb={1}>
+          <p>from: </p>
+          <Avatar alt="Profile Picture" src={fromIconURL}></Avatar>
+          <Typography variant="h6" component="div" sx={{ ml: 1 }}>
+            {fromUsername}
+          </Typography>
+        </Box>
+        <Box display="flex" alignItems="center" mb={1}>
+          <p>to: </p>
+          <Avatar alt="Profile Picture" src={toIconURL}></Avatar>
+          <Typography variant="h6" component="div" sx={{ ml: 1 }}>
+            {toUsername}
+          </Typography>
+        </Box>
       </CardContent>
     </NeumorphicCardWrapper>
   );
 };
 
 const App: FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState<CardData | null | any>(null);
-  // date params
   const [date, setDate] = React.useState<string | null>("ALL");
   const [months, setMonths] = useState(["ALL"]);
+  const [onchainTasks, setOnchainTasks] = useState([]);
+  const [onchainThanks, setOnchainThanks] = useState([]);
 
-  useEffect(() => {
-    let tmp: any = [];
-    // for (let i = 0; i < 12; i++) {
-    //   const option = ConvertUtils.generateSpecificYyyymm(i);
-    //   let optionDate = new Date(option + "-1");
-    //   let genesisDate = new Date("2022-11-1");
-    //   if (optionDate.getTime() > genesisDate.getTime()) tmp.push(option);
-    // }
-    tmp.unshift("ALL");
-    setMonths(tmp);
-  }, []);
+  // useEffect(() => {
+  //   let tmp: any = [];
+  //   const getUniqueValues = (array: any, key: any) => {
+  //     const uniqueValues = new Set(array.map((item: any) => item[key]));
+  //     return Array.from(uniqueValues);
+  //   };
+  //   // TODO
+  //   const uniqueNames = getUniqueValues(onchainTasks, "teamId");
+  //   tmp = uniqueNames;
+  //   tmp.unshift("ALL");
+  //   setMonths(tmp);
+  // }, []);
 
   useEffect(() => {
     (async () => {
-      const numberValue = 123456789;
-      const hexString = numberValue.toString(16);
-      console.log(privateKey)
-      const provider:any = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/OYM4nSdwayU_AlLiq50U7TFXnKqXXcuL');
-      console.log(provider)
+      const provider: any = new ethers.providers.JsonRpcProvider(
+        "https://astar.blastapi.io/72fc6242-60a0-4d5c-b03d-5800687511c1"
+      );
       const walletWithProvider = new ethers.Wallet(privateKey, provider);
-      console.log(walletWithProvider)
-      const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ContractABI, walletWithProvider);
-      console.log(connectedContract)
+      const connectedContract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        ContractABI,
+        walletWithProvider
+      );
       const tasks = await connectedContract.getAllTasks();
-      console.log(tasks)
+      const thanks = await connectedContract.getAllThanks();
+      setOnchainTasks(tasks);
+      setOnchainThanks(thanks);
+      console.dir(thanks);
+      let tmp: any = [];
+      const getUniqueValues = (array: any, key: any) => {
+        const uniqueValues = new Set(array.map((item: any) => item[key]));
+        return Array.from(uniqueValues);
+      };
+      const uniqueNames = getUniqueValues(onchainTasks, "teamId");
+      tmp = uniqueNames;
+      tmp.unshift("ALL");
+      setMonths(tmp);
     })();
   }, []);
 
-  const handleOpen = (id: number) => {
-    setSelectedCard(cardData.find((card) => card.id === id) || null);
+  const handleOpen = (id: string | number) => {
+    setSelectedCard(
+      onchainTasks.find((task: any) => task.taskId === id) || null
+    );
     setModalOpen(true);
   };
 
@@ -165,93 +242,65 @@ const App: FC = () => {
     setModalOpen(false);
   };
 
-  // TODO: apiの呼び出しはファイルで切り出す
-  // const fetchUrl = useCallback(async () => {
-  //   const fragment = new URLSearchParams(window.location.hash.slice(1));
-  //   const [accessToken, tokenType] = [
-  //     fragment.get("access_token"),
-  //     fragment.get("token_type"),
-  //   ];
-  //   console.log(accessToken, tokenType);
-  //   if (accessToken !== null) {
-  //     console.log(accessToken);
-  //     console.log(tokenType);
-  //     fetch("https://discord.com/api/users/@me", {
-  //       headers: {
-  //         authorization: `${tokenType} ${accessToken}`,
-  //       },
-  //     })
-  //       .then((result) => result.json())
-  //       .then((response) => {
-  //         setATfunc.setATCallback(response); // Context値更新
-  //         setUser(response);
-  //       })
-  //       .catch(console.error);
-  //   }
-  // }, [setATfunc]);
+  const tasksToRender =
+    date === "ALL"
+      ? onchainTasks
+      : onchainTasks.filter((item: any) => item.teamId === date);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleAddTodo = () => {
-    if (!inputValue.trim()) {
-      return;
-    }
-
-    const newTodo: Todo = {
-      id: uuidv4(),
-      text: inputValue,
-      completed: false,
-    };
-
-    setTodos([...todos, newTodo]);
-    setInputValue("");
-  };
-
-  const handleToggleTodo = (id: string) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
-
-    setTodos(updatedTodos);
-  };
-
-  const handleDeleteTodo = (id: string) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
-
-    setTodos(updatedTodos);
-  };
+  const thanksToRender = modalOpen
+    ? onchainThanks.filter((item: any) => item.taskId === selectedCard.taskId)
+    : [];
 
   return (
     <AllWrapper>
       <UAppBar>
-        <img src="./assets/icon_wide.png"></img>
-        <p>for-enterprise</p>
+        <img src={dummy} style={{ height: 60 }}></img>
       </UAppBar>
       <Wrapper>
-        <Select
-          labelId="periodLabel"
-          id="periodLabel"
-          value={date}
-          label="Period"
-          onChange={(e: any) => setDate(e.target.value as string)}
-        >
-          {months.map((item, i) => (
-            <MenuItem key={i} value={item}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-        {cardData.map(({ id, userName, content }) => (
-          <NeumorphicCard
-            key={id}
-            id={id}
-            userName={userName}
-            content={content}
-            handleOpen={handleOpen}
-          />
-        ))}
+        <Flex>
+          <p>チーム選択</p>
+          <Box sx={{ marginRight: "16px" }}></Box>
+          <Select
+            labelId="periodLabel"
+            id="periodLabel"
+            value={date}
+            label="Period"
+            onChange={(e: any) => setDate(e.target.value as string)}
+          >
+            {months.map((item, i) => (
+              <MenuItem key={i} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        </Flex>
+        <Box sx={{ marginTop: "16px" }}></Box>
+        <Flex>
+          <Button>Tasks/Thanks</Button>
+          <Box sx={{ marginRight: "16px" }}></Box>
+          <Button>Dashboard</Button>
+        </Flex>
+        {tasksToRender.map(
+          ({
+            taskId,
+            content,
+            teamName,
+            teamIconURL,
+            userIconURL,
+            userName,
+          }) => (
+            <NeumorphicCard
+              key={taskId}
+              id={taskId}
+              content={content}
+              teamIconURL={teamIconURL}
+              teamName={teamName}
+              userName={userName}
+              userIconURL={userIconURL}
+              handleOpen={handleOpen}
+            />
+          )
+        )}
       </Wrapper>
       <Modal
         open={modalOpen}
@@ -268,8 +317,7 @@ const App: FC = () => {
               transform: "translate(-50%, -50%)",
               width: "60%",
               maxWidth: "900px",
-              // bgcolor: "#E5EEF0",
-              background: "linear-gradient(to right, #ff7f50, #ff1493)",
+              bgcolor: "#E5EEF0",
               boxShadow: 24,
               p: 4,
               maxHeight: "60vh",
@@ -278,20 +326,26 @@ const App: FC = () => {
             }}
           >
             <Typography id="modal-title" variant="h6" component="h2">
-              {selectedCard.userName}
+              {selectedCard.content}
             </Typography>
             <Typography id="modal-description" sx={{ mt: 2 }}>
-              {!selectedCard.content}
+              {selectedCard.username}
             </Typography>
-            {thanksCardData.map(({ id, userName, content }) => (
-              <NeumorphicCard
-                key={id}
-                id={id}
-                userName={userName}
-                content={content}
-                handleOpen={handleOpen}
-              />
-            ))}
+            {sampleThanks.map(
+              (
+                { content, fromIconURL, fromName, toIconURL, toName },
+                index
+              ) => (
+                <ThanksCard
+                  key={index}
+                  content={content}
+                  fromIconURL={fromIconURL}
+                  fromUsername={fromName}
+                  toIconURL={toIconURL}
+                  toUsername={toName}
+                />
+              )
+            )}
           </Paper>
         ) : (
           <Paper></Paper>
