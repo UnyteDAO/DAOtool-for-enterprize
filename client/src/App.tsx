@@ -42,7 +42,7 @@ interface CardData {
   content: string;
 }
 
-const sampleTasks: Task[] = [
+const sampleTasks: any[] = [
   {
     taskId: 1,
     teamId: 1,
